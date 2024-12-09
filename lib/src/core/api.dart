@@ -12,6 +12,8 @@ import 'core.dart';
 
 final apiProvider = StateProvider((ref) {
   final authToken = ref.watch(authTokenProvider);
+
+  // final token = await SharedPrefHelper.getToken();
   return API(authToken: authToken);
 });
 

@@ -14,23 +14,43 @@ const restaurant_Email = 'info@deliciousdelights.com';
 const restaurant_Mobile = '+91 1234567890';
 const restaurant_address = '123, Main Street, Mumbai, Maharashtra, 400001';
 
+// // Placeholder data -
+// final restaurant_info = [
+//   {
+//     "title": "Owner/Manager Name",
+//     "subtitle": restaurant_Owner_Name,
+//   },
+//   {
+//     "title": "Address",
+//     "subtitle": restaurant_address,
+//   },
+//   {
+//     "title": "Email Address",
+//     "subtitle": restaurant_Email,
+//   },
+//   {
+//     "title": "Phone",
+//     "subtitle": restaurant_Mobile,
+//   },
+// ];
+
 // Placeholder data -
 final restaurant_info = [
   {
     "title": "Owner/Manager Name",
-    "subtitle": restaurant_Owner_Name,
+    "subtitle": "",
   },
   {
     "title": "Address",
-    "subtitle": restaurant_address,
+    "subtitle": "",
   },
   {
     "title": "Email Address",
-    "subtitle": restaurant_Email,
+    "subtitle": "",
   },
   {
     "title": "Phone",
-    "subtitle": restaurant_Mobile,
+    "subtitle": "",
   },
 ];
 

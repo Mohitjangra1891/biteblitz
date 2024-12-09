@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:biteblitz/src/common/providers/common_providers.dart';
 import 'package:biteblitz/src/common/services/snackBar_service.dart';
+import 'package:biteblitz/src/utils/SharedPrefHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,6 @@ final addgstInStateProvider = Provider<AsyncValue<void>>((ref) {
 final addFssaiStateProvider = Provider<AsyncValue<void>>((ref) {
   return ref.watch(authProvider.select((authState) => authState.fssaiState));
 });
-
 
 // State class to hold the individual states for login, register, and verify OTP
 class AuthState {
@@ -101,11 +101,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
 
-        final auth = ref.read(authTokenProvider.notifier).state = responseBody['data'];
-
+        final authToken = ref.read(authTokenProvider.notifier).state = responseBody['data'];
+        SharedPrefHelper.saveToken(authToken);
         context.go(routeNames.dashboard);
         // context.go(routeNames.verification);
-
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
       }
@@ -127,8 +126,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> responseBody = json.decode(response!.body);
 
       if (response.statusCode == 200 && responseBody['success'] == true) {
-        final auth = ref.read(authTokenProvider.notifier).state = responseBody['data'];
-
+        final authToken = ref.read(authTokenProvider.notifier).state = responseBody['data'];
+        SharedPrefHelper.saveToken(authToken);
+        SharedPrefHelper.saveValue(SharedPrefKeys.restaurantName, name);
+        SharedPrefHelper.saveValue(SharedPrefKeys.restaurantEmail, email);
         // final otp_response = await _authRepo.verifyOtp(number: "8307251891", otp: "1234");
         // final Map<String, dynamic> otp_responseBody = json.decode(otp_response!.body);
         //
@@ -177,7 +178,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
         context.go(routeNames.addBank_during_registraton);
-
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
       }
@@ -187,11 +187,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(panCardState: AsyncValue.error(error, stackTrace));
     }
   }
+
   ///endregion
 
-
   ///region add Bank details method
-  Future<void> addBankDetails(WidgetRef red, BuildContext context, {required String accNumber, required String bankName, required String ifsc_code}) async {
+  Future<void> addBankDetails(WidgetRef red, BuildContext context,
+      {required String accNumber, required String bankName, required String ifsc_code}) async {
     try {
       state = state.copyWith(bankDetailState: const AsyncValue.loading());
 
@@ -201,7 +202,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
         context.go(routeNames.addMenuImages_during_register);
-
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
       }
@@ -211,22 +211,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(bankDetailState: AsyncValue.error(error, stackTrace));
     }
   }
-  ///endregion
-///
 
+  ///endregion
+  ///
 
   ///region add gstIn method
   Future<void> addgstIn(WidgetRef red, BuildContext context, {required String gstNumber, required String gstImage}) async {
     try {
       state = state.copyWith(gstInState: const AsyncValue.loading());
 
-      final response = await _authRepo.add_gst( gstNumber: gstNumber, gstImage: gstImage);
+      final response = await _authRepo.add_gst(gstNumber: gstNumber, gstImage: gstImage);
 
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
         context.go(routeNames.pendingVerification);
-
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
       }
@@ -237,23 +236,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-///endregion
-
-
-
+  ///endregion
 
   ///region add gstIn method
   Future<void> addfssai(WidgetRef red, BuildContext context, {required String fssaiImage}) async {
     try {
       state = state.copyWith(fssaiState: const AsyncValue.loading());
 
-      final response = await _authRepo.add_fssai( fssaiImage:  fssaiImage);
+      final response = await _authRepo.add_fssai(fssaiImage: fssaiImage);
 
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
         context.go(routeNames.addGSTin);
-
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
       }
@@ -263,6 +258,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(fssaiState: AsyncValue.error(error, stackTrace));
     }
   }
-///endregion
-///
+
+  ///endregion
+  ///
 }

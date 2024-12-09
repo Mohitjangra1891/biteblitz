@@ -9,7 +9,6 @@ import '../../../../utils/router.dart';
 class restaurant_information_screen extends StatelessWidget {
   const restaurant_information_screen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -23,17 +22,15 @@ class restaurant_information_screen extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: screenHeight*0.02),
+            padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.02),
             child: InkWell(
               onTap: () {
-
-                context.pushNamed(routeNames.edit_restaurant_info );
+                context.pushNamed(routeNames.edit_restaurant_info);
 
                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>edit_restaurant_information_screen()));
-
               },
               splashColor: AppColors.primary_orange_color,
-               child:Container(
+              child: Container(
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
@@ -58,64 +55,58 @@ class restaurant_information_screen extends StatelessWidget {
             ),
           ),
         ],
-
       ),
       body: Padding(
         padding: EdgeInsets.all(screenHeight * 0.02),
         child: Column(
           children: [
-
-
-            ...restaurant_info.map((event) => info_tile(
-              title: event['title']!,
-              subtitle: event['subtitle']!,
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
-            )).toList(),
-
-
-
+            ...restaurant_info
+                .map((event) => info_tile(
+                      title: event['title']!,
+                      subtitle: event['subtitle']!,
+                      screenWidth: screenWidth,
+                      screenHeight: screenHeight,
+                    ))
+                .toList(),
           ],
         ),
       ),
     );
   }
 
-  Container info_tile({required String title ,required String subtitle ,required double screenHeight,required double screenWidth} ) {
+  Container info_tile({required String title, required String subtitle, required double screenHeight, required double screenWidth}) {
     return Container(
       width: screenWidth,
-      margin: EdgeInsets.symmetric(vertical: screenHeight*0.01),
-          padding: EdgeInsets.all(screenHeight * 0.02),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                spreadRadius: 0,
-                blurRadius: 3,
-              ),
-            ],
+      margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+      padding: EdgeInsets.all(screenHeight * 0.02),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 0,
+            blurRadius: 3,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-               Text(
-                title,
-                style: TextStyle(fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: screenHeight * 0.01,
-              ),
-               Text(
-                subtitle,
-                style: TextStyle(fontSize: 14, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
-              ),
-            ],
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
           ),
-        );
+          SizedBox(
+            height: screenHeight * 0.01,
+          ),
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: 14, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    );
   }
-
-
 }

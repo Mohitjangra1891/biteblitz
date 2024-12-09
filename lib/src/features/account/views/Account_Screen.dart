@@ -25,11 +25,11 @@ class account_screen extends StatelessWidget {
           children: [
             Stack(children: [
               Container(
-                padding: EdgeInsets.all(screenHeight * 0.02),
+                padding: EdgeInsets.only(top: screenHeight * 0.02),
                 child: Row(
                   children: [
                     Image.asset(
-                      AppImages.round_logo,
+                      AppImages.profile_rest,
                       height: screenHeight * 0.08,
                       width: screenHeight * 0.08,
                       fit: BoxFit.cover,
@@ -50,7 +50,7 @@ class account_screen extends StatelessWidget {
                           style: TextStyle(fontSize: 11, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          restaurant_Mobile,
+                          "",
                           style: TextStyle(fontSize: 11, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
                         ),
                       ],

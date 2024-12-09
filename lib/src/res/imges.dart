@@ -14,5 +14,6 @@ class AppImages{
   static const item_added='assets/images/item_added.png';
   static const hdfc_bank='assets/images/hdfc.png';
 
+  static const profile_rest = 'assets/images/profile2.png';
 }
 

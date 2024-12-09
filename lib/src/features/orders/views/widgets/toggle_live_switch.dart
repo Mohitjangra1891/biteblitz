@@ -80,7 +80,7 @@ class _CustomSwitchState extends ConsumerState<toggle_live_switch> {
           children: [
             Positioned(
               left: isLive ? 12 : 40,
-              top: 8,
+              top: 10,
               child: Text(
                 isLive ? 'Online' : 'Offline',
                 style: const TextStyle(
@@ -93,7 +93,7 @@ class _CustomSwitchState extends ConsumerState<toggle_live_switch> {
             AnimatedPositioned(
               duration: Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              left: isLive ? 65 : 2,
+              left: isLive ? 65 : 4,
               top: 4,
               // Adjusting the vertical alignment of the circle
               child: AnimatedSwitcher(

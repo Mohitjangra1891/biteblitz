@@ -1,16 +1,21 @@
-
+import 'package:biteblitz/dashBoard.dart';
+import 'package:biteblitz/src/features/auth/views/login_screen.dart';
 import 'package:biteblitz/src/res/imges.dart';
+import 'package:biteblitz/src/utils/SharedPrefHelper.dart';
 import 'package:biteblitz/src/utils/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../providers/common_providers.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _moveAnimation;
@@ -31,20 +36,18 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    _moveAnimation =
-        Tween<Offset>(begin: Offset(60, 0), end: Offset(73, 0)).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.easeInOut,
-          ),
-        );
+    _moveAnimation = Tween<Offset>(begin: Offset(60, 0), end: Offset(73, 0)).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _startAnimation();
   }
 
   void _startAnimation() {
     _controller.forward().then((_) {
-
       Navigator.of(context).push(
         FadePageRoute(widget: BlankScreen()),
       );
@@ -71,7 +74,6 @@ class _SplashScreenState extends State<SplashScreen>
                 offset: _moveAnimation.value,
                 child: Image.asset(AppImages.logo),
               ),
-
             );
           },
         ),
@@ -80,18 +82,41 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-class BlankScreen extends StatefulWidget {
+class BlankScreen extends ConsumerStatefulWidget {
   @override
   _BlankScreenState createState() => _BlankScreenState();
 }
 
-class _BlankScreenState extends State<BlankScreen> {
+class _BlankScreenState extends ConsumerState<BlankScreen> {
   @override
   void initState() {
     super.initState();
-    // Delay for 1 second before navigating to the LoginScreen
-    Future.delayed(Duration(seconds: 1), () {
 
+    _checkToken();
+  }
+
+  Future<void> _checkToken() async {
+    final token = await SharedPrefHelper.getToken();
+
+    // Navigate to Dashboard if token exists; otherwise, go to Login
+    if (token != null && token.isNotEmpty) {
+      ref.read(authTokenProvider.notifier).state = token;
+      _navigateToDashboard();
+    } else {
+      _navigateToLogin();
+    }
+  }
+
+  void _navigateToDashboard() {
+    // Delay for 1 second before navigating to the LoginScreen
+    Future.delayed(Duration(seconds: 2), () {
+      context.go(routeNames.dashboard);
+    });
+  }
+
+  void _navigateToLogin() {
+    // Delay for 1 second before navigating to the LoginScreen
+    Future.delayed(Duration(seconds: 2), () {
       context.go(routeNames.login);
     });
   }
@@ -99,24 +124,22 @@ class _BlankScreenState extends State<BlankScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-      colorChanger("#ff5733"), // Set your desired background color
+      backgroundColor: colorChanger("#ff5733"), // Set your desired background color
       body: const Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Indulge Your\nAppetite!', // Your desired text
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-
-            ],
-          )),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Indulge Your\nAppetite!', // Your desired text
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      )),
     );
   }
 }
@@ -135,18 +158,18 @@ class FadePageRoute extends PageRouteBuilder {
 
   FadePageRoute({required this.widget, this.scaleFactor = 1.0})
       : super(
-    pageBuilder: (context, animation, secondaryAnimation) => widget,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return ScaleTransition(
-        scale: Tween<double>(begin: 1, end: 1.0).animate(
-          CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeInOut,
-          ),
-        ),
-        child: child,
-      );
-    },
-    transitionDuration: Duration(milliseconds: 500),
-  );
+          pageBuilder: (context, animation, secondaryAnimation) => widget,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return ScaleTransition(
+              scale: Tween<double>(begin: 1, end: 1.0).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeInOut,
+                ),
+              ),
+              child: child,
+            );
+          },
+          transitionDuration: Duration(milliseconds: 500),
+        );
 }
