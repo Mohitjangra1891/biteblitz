@@ -9,14 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/services/imagePicker/imagePickerService.dart';
 
-class fssai_screen extends  ConsumerStatefulWidget {
-  const fssai_screen({super.key});
+class add_fssai_Screen extends ConsumerStatefulWidget {
+  const add_fssai_Screen({super.key});
 
   @override
-  ConsumerState<fssai_screen> createState() => _fssai_screenState();
+  ConsumerState<add_fssai_Screen> createState() => _add_fssai_ScreenState();
 }
 
-class _fssai_screenState extends  ConsumerState<fssai_screen> {
+class _add_fssai_ScreenState extends ConsumerState<add_fssai_Screen> {
   @override
   Widget build(BuildContext context) {
     final addFssaiState = ref.watch(addFssaiStateProvider);

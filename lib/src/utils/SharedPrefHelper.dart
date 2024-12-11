@@ -9,6 +9,7 @@ class SharedPrefKeys {
   static const String authToken = 'authToken';
   static const String restaurantName = 'restaurant_Name';
   static const String restaurantEmail = 'restaurant_Email';
+  static const String onboarding_stage = 'onboarding_stage';
 }
 
 class SharedPrefHelper {
@@ -41,12 +42,14 @@ class SharedPrefHelper {
   }
 
   /// Remove the token
-  Future<void> removeToken(BuildContext context) async {
+  static Future<void> removeToken(BuildContext context) async {
     try {
       final SharedPreferences _prefs = await SharedPreferences.getInstance();
 
       await _prefs.remove('auth_token');
+      removeValue(SharedPrefKeys.onboarding_stage);
       context.go(routeNames.login);
+      log("\n removed auth_token\n", name: "SharedPrefHelper");
     } catch (e) {
       print("Error removing token: $e");
       throw Exception("Failed to remove token");
@@ -93,6 +96,7 @@ class SharedPrefHelper {
   static Future<T?> getValue<T>(String key) async {
     try {
       final SharedPreferences _prefs = await SharedPreferences.getInstance();
+      // log("Retrieving key:$key as type:${T.toString()}", name: "SharedPrefHelper");
 
       if (T == String) {
         return _prefs.getString(key) as T?;

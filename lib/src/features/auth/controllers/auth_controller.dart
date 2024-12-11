@@ -116,7 +116,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   // Register method
-  Future<void> register(WidgetRef ref, BuildContext context, String name, String email, String password) async {
+  Future<bool> register(WidgetRef ref, BuildContext context, String name, String email, String password) async {
     try {
       state = state.copyWith(registerState: const AsyncValue.loading());
 
@@ -135,16 +135,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
         //
         // if (otp_response.statusCode == 200 && otp_responseBody['success'] == true) {
         //   SnackBarService.showSnackBar(context: context, message: otp_responseBody['message']);
+        SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 0);
+
         context.go(routeNames.verification);
         // } else {
         //   SnackBarService.showSnackBar(context: context, message: otp_responseBody['message']);
         // }
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
+        state = state.copyWith(registerState: const AsyncValue.data(null));
+
+        return false;
       }
       state = state.copyWith(registerState: const AsyncValue.data(null));
+      return true;
     } catch (error, stackTrace) {
       state = state.copyWith(registerState: AsyncValue.error(error, stackTrace));
+      return false;
     }
   }
 
@@ -177,6 +184,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
+        SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 3);
+
         context.go(routeNames.addBank_during_registraton);
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
@@ -201,6 +210,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
+        SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 4);
+
         context.go(routeNames.addMenuImages_during_register);
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
@@ -225,6 +236,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
+        SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 7);
+
         context.go(routeNames.pendingVerification);
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
@@ -248,6 +261,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final Map<String, dynamic> responseBody = json.decode(response!.body);
       if (response.statusCode == 200 && responseBody['success'] == true) {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);
+        SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 6);
+
         context.go(routeNames.addGSTin);
       } else {
         SnackBarService.showSnackBar(context: context, message: responseBody['message']);

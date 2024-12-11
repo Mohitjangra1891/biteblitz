@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common/services/imagePicker/imagePickerService.dart';
+import '../../../utils/SharedPrefHelper.dart';
 import '../../../utils/router.dart';
 
-class menu_images extends StatelessWidget {
-  const menu_images({super.key});
+class add_menuImages_Screen extends StatelessWidget {
+  const add_menuImages_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,8 @@ class menu_images extends StatelessWidget {
                     title: "Next",
                     onPressed: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>const fssai_screen()));
+                      SharedPrefHelper.saveValue(SharedPrefKeys.onboarding_stage, 5);
+
                       context.pushNamed(routeNames.addFssai);
                     },
                   ),

@@ -1,12 +1,11 @@
 import 'package:biteblitz/src/common/views/widgets/appBar.dart';
-import 'package:biteblitz/src/common/views/widgets/shadow_card.dart';
 import 'package:biteblitz/src/features/menu/views/widgets/menu_widgets.dart';
 import 'package:biteblitz/src/models/menuItem%20Model.dart';
 import 'package:biteblitz/src/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../common/views/widgets/dailog.dart';
+import '../../../common/views/widgets/common_dailogs.dart';
 import '../../../utils/router.dart';
 
 class item_DetailsPage extends StatefulWidget {

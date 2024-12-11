@@ -8,14 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common/views/widgets/text_field_.dart';
 import '../../../utils/validators.dart';
 
-class bank_details extends ConsumerStatefulWidget {
-  const bank_details({super.key});
+class add_bankDetails_Screen extends ConsumerStatefulWidget {
+  const add_bankDetails_Screen({super.key});
 
   @override
-  ConsumerState<bank_details> createState() => _bank_detailsState();
+  ConsumerState<add_bankDetails_Screen> createState() => _add_bankDetails_ScreenState();
 }
 
-class _bank_detailsState extends ConsumerState<bank_details> {
+class _add_bankDetails_ScreenState extends ConsumerState<add_bankDetails_Screen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Form key
 
   final GlobalKey<textField_widgetState> _bankNameFieldKey = GlobalKey<textField_widgetState>();
@@ -40,6 +40,7 @@ class _bank_detailsState extends ConsumerState<bank_details> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(screenHeight * 0.02),

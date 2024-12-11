@@ -1,13 +1,19 @@
 import 'package:biteblitz/dashBoard.dart';
-import 'package:biteblitz/src/features/auth/views/login_screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_Bank_detail_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_fssai_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_gstIn_screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_pan_card_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_res_info_screen.dart';
+import 'package:biteblitz/src/features/auth/views/pending_verification.dart';
+import 'package:biteblitz/src/features/auth/views/verification.dart';
 import 'package:biteblitz/src/res/imges.dart';
 import 'package:biteblitz/src/utils/SharedPrefHelper.dart';
 import 'package:biteblitz/src/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/auth/views/menu_images.dart';
 import '../providers/common_providers.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -101,7 +107,14 @@ class _BlankScreenState extends ConsumerState<BlankScreen> {
     // Navigate to Dashboard if token exists; otherwise, go to Login
     if (token != null && token.isNotEmpty) {
       ref.read(authTokenProvider.notifier).state = token;
-      _navigateToDashboard();
+      final onboardingStage = await SharedPrefHelper.getValue<int>(SharedPrefKeys.onboarding_stage);
+
+      if (onboardingStage != null) {
+        // Redirect to the next onboarding step based on the current stage
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => OnboardingScreen(stage: onboardingStage)));
+      } else {
+        _navigateToDashboard();
+      }
     } else {
       _navigateToLogin();
     }
@@ -109,14 +122,14 @@ class _BlankScreenState extends ConsumerState<BlankScreen> {
 
   void _navigateToDashboard() {
     // Delay for 1 second before navigating to the LoginScreen
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 0), () {
       context.go(routeNames.dashboard);
     });
   }
 
   void _navigateToLogin() {
     // Delay for 1 second before navigating to the LoginScreen
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 0), () {
       context.go(routeNames.login);
     });
   }
@@ -172,4 +185,45 @@ class FadePageRoute extends PageRouteBuilder {
           },
           transitionDuration: Duration(milliseconds: 500),
         );
+}
+
+class OnboardingScreen extends StatelessWidget {
+  final int stage;
+
+  OnboardingScreen({required this.stage});
+
+  @override
+  Widget build(BuildContext context) {
+    // Show the appropriate screen based on the stage
+    Widget currentScreen;
+    switch (stage) {
+      case 0:
+        currentScreen = const verification();
+        break;
+      case 1:
+        currentScreen = const add_res_Info_Screen();
+        break;
+      case 2:
+        currentScreen = const add_panCard_Screen();
+        break;
+      case 3:
+        currentScreen = const add_bankDetails_Screen();
+        break;
+      case 4:
+        currentScreen = const add_menuImages_Screen();
+        break;
+      case 5:
+        currentScreen = const add_fssai_Screen();
+        break;
+      case 6:
+        currentScreen = const add_gstIN_screen();
+        break;
+      case 7:
+        currentScreen = const pending_verification();
+        break;
+      default:
+        currentScreen = dashboard();
+    }
+    return currentScreen;
+  }
 }

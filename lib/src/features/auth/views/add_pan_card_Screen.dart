@@ -11,14 +11,14 @@ import '../../../common/services/imagePicker/imagePickerService.dart';
 import '../../../common/views/widgets/text_field_.dart';
 import '../../../utils/validators.dart';
 
-class pan_card extends  ConsumerStatefulWidget {
-  const pan_card({super.key});
+class add_panCard_Screen extends ConsumerStatefulWidget {
+  const add_panCard_Screen({super.key});
 
   @override
-  ConsumerState<pan_card> createState() => _pan_cardState();
+  ConsumerState<add_panCard_Screen> createState() => _add_panCard_ScreenState();
 }
 
-class _pan_cardState extends  ConsumerState<pan_card> {
+class _add_panCard_ScreenState extends ConsumerState<add_panCard_Screen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Form key
 // Declare the GlobalKeys in your screen (e.g., LoginScreen)
   final GlobalKey<textField_widgetState> _panCard_num_FieldKey = GlobalKey<textField_widgetState>();

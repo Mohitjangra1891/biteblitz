@@ -35,7 +35,6 @@ class _register_screenState extends ConsumerState<register_screen> {
   Widget build(BuildContext context) {
     final registerState = ref.watch(registerStateProvider);
 
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
@@ -67,14 +66,15 @@ class _register_screenState extends ConsumerState<register_screen> {
                       children: [
                         const Text(
                           'Create an Account',
-                          style: TextStyle(
-                              fontSize: 36, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 36, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
                         ),
                         // SizedBox(height: screenHeight * 0.01),
                         const Text(
                           'Join BiteBlitz to expand your reach',
                           style: TextStyle(fontSize: 16, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
                         ),
+                        SizedBox(height: screenHeight * 0.02),
+
                         textField_widget(
                           key: _nameFieldKey,
                           validator: (value) => Validators.notEmpty(value, "Name"),
@@ -98,8 +98,7 @@ class _register_screenState extends ConsumerState<register_screen> {
                         SizedBox(height: screenHeight * 0.02),
                         textField_widget(
                             key: _confirmpasswordFieldKey,
-                            validator: (value) =>
-                                Validators.confirmPasswordValidator(value, _pass_controller.text.trim()),
+                            validator: (value) => Validators.confirmPasswordValidator(value, _pass_controller.text.trim()),
                             title: "Confirm Password",
                             isobsecure: true,
                             controller: _confirm_pass_controller),
@@ -116,8 +115,7 @@ class _register_screenState extends ConsumerState<register_screen> {
                             ),
                             const Text(
                               'I agree to the Terms & Conditions',
-                              style: TextStyle(
-                                  fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
+                              style: TextStyle(fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
@@ -125,7 +123,7 @@ class _register_screenState extends ConsumerState<register_screen> {
                         SizedBox(height: screenHeight * 0.04),
                         registerState.when(
                           data: (_) {
-                            return  button_Primary(
+                            return button_Primary(
                               title: "Sign Up",
                               onPressed: () async {
                                 final isNameValid = _nameFieldKey.currentState?.validate() ?? false;
@@ -134,13 +132,15 @@ class _register_screenState extends ConsumerState<register_screen> {
                                 final isConfirmPasswordValid = _confirmpasswordFieldKey.currentState?.validate() ?? false;
 
                                 if (isEmailValid && isNameValid && isPasswordValid && isConfirmPasswordValid) {
+                                  final success = await ref.read(authProvider.notifier).register(ref, context, _name_controller.text.trim(),
+                                      _email_controller.text.trim(), _confirm_pass_controller.text.trim());
 
-                                  await ref.read(authProvider.notifier).register(ref, context , _name_controller.text.trim(), _email_controller.text.trim(), _confirm_pass_controller.text.trim());
-
-                                  _name_controller.clear();
-                                  _email_controller.clear();
-                                  _pass_controller.clear();
-                                  _confirm_pass_controller.clear();
+                                  if (success) {
+                                    _name_controller.clear();
+                                    _email_controller.clear();
+                                    _pass_controller.clear();
+                                    _confirm_pass_controller.clear();
+                                  }
                                 }
 
                                 // context.pushNamed(routeNames.verification);
@@ -149,8 +149,8 @@ class _register_screenState extends ConsumerState<register_screen> {
                           },
                           loading: () => const Center(
                               child: CircularProgressIndicator(
-                                color: AppColors.primary_orange_color,
-                              )),
+                            color: AppColors.primary_orange_color,
+                          )),
                           // Show loader while API call is in progress
                           error: (err, _) => Text('Error: $err'),
                         ),
@@ -165,13 +165,11 @@ class _register_screenState extends ConsumerState<register_screen> {
                               text: const TextSpan(children: [
                                 TextSpan(
                                   text: 'Already Registered?',
-                                  style: TextStyle(
-                                      fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w400),
+                                  style: TextStyle(fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w400),
                                 ),
                                 TextSpan(
-                                  text: 'Login here.',
-                                  style: TextStyle(
-                                      fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
+                                  text: ' Login here.',
+                                  style: TextStyle(fontSize: 12, color: AppColors.primary_orange_color, fontWeight: FontWeight.w600),
                                 ),
                               ]),
                             ),

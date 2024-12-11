@@ -15,12 +15,13 @@ import 'package:biteblitz/src/features/analytics/views/analytics_screen.dart';
 import 'package:biteblitz/src/features/analytics/views/customer_feedback_analysis.dart';
 import 'package:biteblitz/src/features/analytics/views/growth_screen.dart';
 import 'package:biteblitz/src/features/analytics/views/insights_screen.dart';
-import 'package:biteblitz/src/features/auth/views/Bank_detail.dart';
-import 'package:biteblitz/src/features/auth/views/fssai.dart';
-import 'package:biteblitz/src/features/auth/views/gstIn.dart';
+import 'package:biteblitz/src/features/auth/views/add_Bank_detail_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_fssai_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_gstIn_screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_pan_card_Screen.dart';
+import 'package:biteblitz/src/features/auth/views/add_res_info_screen.dart';
 import 'package:biteblitz/src/features/auth/views/login_screen.dart';
 import 'package:biteblitz/src/features/auth/views/menu_images.dart';
-import 'package:biteblitz/src/features/auth/views/pan_card.dart';
 import 'package:biteblitz/src/features/auth/views/pending_verification.dart';
 import 'package:biteblitz/src/features/auth/views/register_screen.dart';
 import 'package:biteblitz/src/features/auth/views/verification.dart';
@@ -85,6 +86,7 @@ class routeNames {
   static String login = '/login';
   static String registration = '/registration';
   static String verification = '/verification';
+  static String addResInfo = '/addRestaurantInformation';
   static String addPan = '/addPan';
   static String addBank_during_registraton = '/bankDetails';
   static String addMenuImages_during_register = '/MenuImages';
@@ -131,15 +133,22 @@ final GoRouter router = GoRouter(
       name: routeNames.verification,
       path: routeNames.verification,
       builder: (BuildContext context, GoRouterState state) {
-        return verification();
+        return const verification();
       },
     ),
 
     GoRoute(
+      name: routeNames.addResInfo,
+      path: routeNames.addResInfo,
+      builder: (BuildContext context, GoRouterState state) {
+        return const add_res_Info_Screen();
+      },
+    ),
+    GoRoute(
       name: routeNames.addPan,
       path: routeNames.addPan,
       builder: (BuildContext context, GoRouterState state) {
-        return pan_card();
+        return const add_panCard_Screen();
       },
     ),
 
@@ -147,7 +156,7 @@ final GoRouter router = GoRouter(
       name: routeNames.addBank_during_registraton,
       path: routeNames.addBank_during_registraton,
       builder: (BuildContext context, GoRouterState state) {
-        return bank_details();
+        return add_bankDetails_Screen();
       },
     ),
 
@@ -155,7 +164,7 @@ final GoRouter router = GoRouter(
       name: routeNames.addMenuImages_during_register,
       path: routeNames.addMenuImages_during_register,
       builder: (BuildContext context, GoRouterState state) {
-        return menu_images();
+        return add_menuImages_Screen();
       },
     ),
 
@@ -163,7 +172,7 @@ final GoRouter router = GoRouter(
       name: routeNames.addFssai,
       path: routeNames.addFssai,
       builder: (BuildContext context, GoRouterState state) {
-        return fssai_screen();
+        return add_fssai_Screen();
       },
     ),
 

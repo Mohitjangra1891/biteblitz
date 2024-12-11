@@ -1,3 +1,4 @@
+import 'package:biteblitz/src/common/views/widgets/common_dailogs.dart';
 import 'package:biteblitz/src/features/account/views/widgets/account%20list%20item.dart';
 import 'package:biteblitz/src/res/strings.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,6 @@ class account_screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -61,26 +60,37 @@ class account_screen extends StatelessWidget {
               Positioned(
                 top: 0,
                 right: 0,
-                child: ClipOval(
-                  child: Material(
-                    color: Colors.white, // button color
-                    child: InkWell(
-                      splashColor: Colors.white,
-                      // inkwell color
-                      child: const SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: Icon(
-                            Icons.logout_rounded,
-                            color: AppColors.primary_orange_color,
-                            size: 22,
-                          )),
-                      onTap: () {
-                      },
+                child: InkWell(
+                  onTap: () {
+                    showDialog(context: context, barrierDismissible: false, builder: (BuildContext context) => logout_Dailog());
+                  },
+                  splashColor: Colors.transparent,
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.white, // White button
+                      shape: BoxShape.circle,
+                      // borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2), // Slight shadow
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: Offset(0, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.logout_rounded,
+                        color: AppColors.primary_orange_color,
+                        size: 22,
+                      ),
                     ),
                   ),
                 ),
-              )
+              ),
             ]),
             SizedBox(
               height: screenHeight * 0.02,
@@ -91,9 +101,7 @@ class account_screen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      context.pushNamed(routeNames.restaurant_info );
-
-
+                      context.pushNamed(routeNames.restaurant_info);
                     },
                     child: Container(
                       padding: EdgeInsets.all(screenHeight * 0.02),
@@ -112,21 +120,20 @@ class account_screen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           const ClipOval(
                             child: Material(
                               color: Color.fromRGBO(255, 87, 51, 0.12),
                               child: SizedBox(
-                                  width: 34,
-                                  height: 34,
-                                  child:   Icon(
-                                    Icons.person_outline_rounded,
-                                    color: AppColors.primary_orange_color,
-                                    size: 18,
-                                  ),),
+                                width: 34,
+                                height: 34,
+                                child: Icon(
+                                  Icons.person_outline_rounded,
+                                  color: AppColors.primary_orange_color,
+                                  size: 18,
+                                ),
+                              ),
                             ),
                           ),
-
                           SizedBox(
                             height: screenHeight * 0.02,
                           ),
@@ -145,9 +152,7 @@ class account_screen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      context.pushNamed(routeNames.setting );
-
-
+                      context.pushNamed(routeNames.setting);
                     },
                     child: Container(
                       padding: EdgeInsets.all(screenHeight * 0.02),
@@ -166,21 +171,20 @@ class account_screen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
                           const ClipOval(
                             child: Material(
                               color: Color.fromRGBO(255, 87, 51, 0.12),
                               child: SizedBox(
                                 width: 34,
                                 height: 34,
-                                child:   Icon(
-                                  Icons.settings_rounded ,
+                                child: Icon(
+                                  Icons.settings_rounded,
                                   color: AppColors.primary_orange_color,
                                   size: 18,
-                                ),),
+                                ),
+                              ),
                             ),
                           ),
-
                           SizedBox(
                             height: screenHeight * 0.02,
                           ),
@@ -200,9 +204,7 @@ class account_screen extends StatelessWidget {
             ),
             account_list_item(
               onPressed: () {
-
-                context.pushNamed(routeNames.bank_Acc_details );
-
+                context.pushNamed(routeNames.bank_Acc_details);
               },
               title: 'Bank Account Details',
               icon: Icons.food_bank,
@@ -212,9 +214,7 @@ class account_screen extends StatelessWidget {
             ),
             account_list_item(
               onPressed: () {
-
-                context.pushNamed(routeNames.helpandSupport );
-
+                context.pushNamed(routeNames.helpandSupport);
               },
               title: 'Help & Support',
               icon: Icons.help_outline,
@@ -224,9 +224,7 @@ class account_screen extends StatelessWidget {
             ),
             account_list_item(
               onPressed: () {
-
-                context.pushNamed(routeNames.contactUs );
-
+                context.pushNamed(routeNames.contactUs);
               },
               title: 'Contact Us',
               icon: Icons.person,
@@ -236,10 +234,9 @@ class account_screen extends StatelessWidget {
             ),
             account_list_item(
               onPressed: () {
-                context.pushNamed(routeNames.feedback );
+                context.pushNamed(routeNames.feedback);
 
                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>feedback_screen()));
-
               },
               title: 'Feedback',
               icon: Icons.comment_outlined,

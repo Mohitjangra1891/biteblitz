@@ -1,6 +1,7 @@
 import 'package:biteblitz/src/common/views/widgets/button.dart';
 import 'package:biteblitz/src/res/colors.dart';
 import 'package:biteblitz/src/res/imges.dart';
+import 'package:biteblitz/src/utils/SharedPrefHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,14 +57,15 @@ class verification extends StatelessWidget {
                   ),
                   SizedBox(height: screenHeight * 0.02),
                   const Text(
-                    '1. PAN Card Copy 2.Bank Account Details 3. Restaurant Menu and Dish Images (Top Items) 4. FSSAI and GSTIN Registration Copies (if applicable) 5. Business Registration Certificate (if available)',
+                    '1. Restaurant Information 2. PAN Card Copy 3.Bank Account Details 4. Restaurant Menu and Dish Images (Top Items) 5. FSSAI and GSTIN Registration Copies (if applicable) 6. Business Registration Certificate (if available)',
                     style: TextStyle(fontSize: 16, color: AppColors.dark_text_color, fontWeight: FontWeight.w600),
                   ),
                   const Spacer(),
                   button_Primary(
                     title: "Continue",
-                    onPressed: () {
-                      context.pushNamed(routeNames.addPan);
+                    onPressed: () async {
+                      await SharedPrefHelper.saveValue<int>(SharedPrefKeys.onboarding_stage, 1);
+                      context.pushNamed(routeNames.addResInfo);
 
                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>const pan_card()));
                     },
