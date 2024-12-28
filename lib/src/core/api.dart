@@ -22,8 +22,7 @@ class API {
 
   API({required String? authToken}) : _authToken = authToken;
 
-  FutureEither<Response> getRequest(
-      {required String url, bool requireAuth = true}) async {
+  FutureEither<Response> getRequest({required String url, bool requireAuth = true}) async {
     final Map<String, String> requestHeaders = {
       "Content-Type": "application/json",
       "Authorization": "$_authToken"
@@ -47,8 +46,7 @@ class API {
     }
   }
 
-  FutureEither<Response> postRequest(
-      {required String url, dynamic body, bool requireAuth = true}) async {
+  FutureEither<Response> postRequest({required String url, dynamic body, bool requireAuth = true}) async {
     final Map<String, String> requestHeaders = {
       "Content-Type": "application/json",
       "Authorization": "$_authToken"
@@ -69,14 +67,12 @@ class API {
       log('RESPONSE :${response.statusCode}- ${response.body}\n', name: LogLabel.httpPost);
       return Right(response);
     } catch (e, stktrc) {
-
       return Left(Failure(
           message: FailureMessage.postRequestMessage, stackTrace: stktrc));
     }
   }
 
-  FutureEither<Response> putRequest(
-      {required String url, dynamic body, bool requireAuth = true}) async {
+  FutureEither<Response> putRequest({required String url, dynamic body, bool requireAuth = true}) async {
     final Map<String, String> requestHeaders = {
       "Content-Type": "application/json",
       "Authorization": "$_authToken"
@@ -106,8 +102,7 @@ class API {
     }
   }
 
-  FutureEither<Response> deleteRequest(
-      {required String url, dynamic body, bool requireAuth = true}) async {
+  FutureEither<Response> deleteRequest({required String url, dynamic body, bool requireAuth = true}) async {
     final Map<String, String> requestHeaders = {
       "Content-Type": "application/json",
       "Authorization": "$_authToken"

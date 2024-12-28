@@ -33,7 +33,6 @@ class _add_res_Info_ScreenState extends ConsumerState<add_res_Info_Screen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     setEmail();
 
     super.initState();
