@@ -15,7 +15,7 @@ class App extends StatelessWidget {
 
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'BiteBlitz Restaurant',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
 

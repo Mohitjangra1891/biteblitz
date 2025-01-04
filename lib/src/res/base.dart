@@ -1,4 +1,3 @@
-
 import '../utils/config.dart';
 
 class BasePaths {
